@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionWrapper from './SectionWrapper';
 import TiltCard from './TiltCard';
-const ISS3D = React.lazy(() => import('./ISS3D'));
+import ISS3D from './ISS3D';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +38,24 @@ const skillCategories = [
     ]
   }
 ];
+
+const ISSLoadingFallback = () => (
+  <group>
+    <mesh castShadow>
+      <boxGeometry args={[1, 0.35, 0.35]} />
+      <meshStandardMaterial color="#94a3b8" metalness={0.6} roughness={0.4} />
+    </mesh>
+    <mesh position={[1, 0, 0]} castShadow>
+      <boxGeometry args={[1.4, 0.12, 0.04]} />
+      <meshStandardMaterial color="#38bdf8" emissive="#1d4ed8" emissiveIntensity={0.4} />
+    </mesh>
+    <mesh position={[-1, 0, 0]} castShadow>
+      <boxGeometry args={[1.4, 0.12, 0.04]} />
+      <meshStandardMaterial color="#38bdf8" emissive="#1d4ed8" emissiveIntensity={0.4} />
+    </mesh>
+    <Sparkles count={24} scale={4} size={1.8} speed={0.45} opacity={0.5} color="#93c5fd" />
+  </group>
+);
 
 const Skills = () => {
   const sectionRef = useRef(null);
@@ -238,12 +256,7 @@ const Skills = () => {
                    <pointLight position={[6, 3, 4]} intensity={0.8} />
 
                    <Suspense
-                     fallback={
-                       <mesh>
-                         <boxGeometry args={[1, 1, 1]} />
-                         <meshStandardMaterial color="#4a5568" />
-                       </mesh>
-                     }
+                     fallback={<ISSLoadingFallback />}
                    >
                      <ISS3D highlightCategory={highlightCategory} />
                      <Sparkles

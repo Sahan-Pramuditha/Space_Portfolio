@@ -77,8 +77,12 @@ const Screen = () => {
   ]);
   const [liveBlink, setLiveBlink] = useState(true);
   const [waveTick, setWaveTick] = useState(0);
+  const [bootProgress, setBootProgress] = useState(0);
+  const [bootStatus, setBootStatus] = useState('');
+  const [booting, setBooting] = useState(false);
   const dashboardRef = useRef();
   const programsRef = useRef();
+  const bootScanRef = useRef();
   const transitionRef = useRef(0);
   const transitionTargetRef = useRef(0);
   const menuItems = ["Target Tracking Operations","Network Intrusion Gateway","Strategic Systems Control","Signal Manipulation","Orbital Weaponization","Blackout & Disruption","Self-Destruction Protocol","Exit Command Interface"];
@@ -135,7 +139,40 @@ const Screen = () => {
       dashboardRef.current.scale.setScalar(1 - t * 0.04);
       programsRef.current.scale.setScalar(0.96 + t * 0.04);
     }
+
+    if (bootScanRef.current) {
+      const t = state.clock.elapsedTime;
+      const active = screenState === 'hacking';
+      bootScanRef.current.position.y = Math.sin(t * 1.4) * 0.6;
+      const targetOpacity = active ? 0.12 + Math.sin(t * 3) * 0.05 : 0;
+      bootScanRef.current.material.opacity = THREE.MathUtils.lerp(
+        bootScanRef.current.material.opacity,
+        targetOpacity,
+        Math.min(1, delta * 6)
+      );
+    }
   });
+
+  const pushLine = (line) => {
+    setLines((prev) => [...prev.slice(-12), line]);
+  };
+
+  const replaceLastLine = (line) => {
+    setLines((prev) => {
+      if (prev.length === 0) return [line];
+      const trimmed = prev.slice(0, -1);
+      return [...trimmed, line];
+    });
+  };
+
+  const updateProgressLine = (label, progress) => {
+    const total = 20;
+    const filled = Math.round((progress / 100) * total);
+    const bar = `${"#".repeat(filled)}${".".repeat(total - filled)}`;
+    setBootProgress(progress);
+    setBootStatus(label);
+    replaceLastLine(`> ${label} [${bar}] ${String(progress).padStart(3, " ")}%`);
+  };
 
   const launchProgram = (name) => {
     if (programLoading) return;
@@ -294,40 +331,46 @@ const Screen = () => {
       if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
 
       if (screenState === 'initial' && e.key === 'Enter') {
+            if (booting) return;
+            setBooting(true);
             setScreenState('hacking');
-            setLines(["> INITIALIZING ROOTKIT..."]);
-            
+            setBootProgress(0);
+            setBootStatus('BOOTING');
+            setLines([
+              "> SYSTEM WAKE SIGNAL RECEIVED",
+              "> POWER RAILS: STABLE",
+              "> MEMORY CHECK: PASS",
+              "> BOOT SEQUENCE: START",
+            ]);
+
             const delay = (ms) => new Promise(r => setTimeout(r, ms));
-            const addLine = (line) => setLines(prev => [...prev.slice(-12), line]);
 
-            await delay(500);
-            addLine("> TARGET: ORBITAL_SAT_7");
-            await delay(400);
-            addLine("> BYPASSING FIREWALL [Proxy: 192.168.0.1]...");
-            
-            for(let i=0; i<15; i++) {
-                await delay(50);
-                addLine(`> 0x${Math.random().toString(16).substr(2, 8).toUpperCase()} // INJECTING PACKET`);
+            const stages = [
+              { label: "VERIFYING FIRMWARE", from: 0, to: 22, step: 2, tempo: 35 },
+              { label: "CALIBRATING SENSORS", from: 22, to: 46, step: 2, tempo: 35 },
+              { label: "NEGOTIATING ENCRYPTION", from: 46, to: 74, step: 2, tempo: 32 },
+              { label: "ESTABLISHING UPLINK", from: 74, to: 100, step: 2, tempo: 30 },
+            ];
+
+            await delay(300);
+            pushLine("> BUS CONTROLLER: ONLINE");
+            await delay(280);
+            pushLine("> SECURITY MODULES: LOADED");
+            pushLine("> ");
+
+            for (const stage of stages) {
+              for (let p = stage.from; p <= stage.to; p += stage.step) {
+                updateProgressLine(stage.label, p);
+                await delay(stage.tempo);
+              }
             }
 
-            await delay(600);
-            addLine("> ROOT ACCESS: GRANTED");
-            await delay(400);
-            addLine("> UPLINKING TO SATELLITE...");
-            
-            let progress = "";
-            for(let i=0; i<20; i++) {
-                await delay(50);
-                progress += "#";
-                setLines(prev => [...prev.slice(0, -1), `> UPLINKING [${progress.padEnd(20, ' ')}] ${(i+1)*5}%`]);
-            }
-
-            await delay(500);
-            addLine("> HANDSHAKE COMPLETE...");
-            await delay(800);
-            addLine("");
-            addLine("> CONNECTION ESTABLISHED.");
-            addLine("> PRESS [ENTER] FOR TELEMETRY");
+            await delay(250);
+            pushLine("> LINK STABLE");
+            await delay(300);
+            pushLine("> CONNECTION ESTABLISHED");
+            pushLine("> PRESS [ENTER] TO OPEN DASHBOARD");
+            setBooting(false);
       } 
       else if (screenState === 'hacking' && e.key === 'Enter' && lines[lines.length - 1].includes("PRESS [ENTER]")) {
              setScreenState('dashboard');
@@ -672,6 +715,13 @@ const Screen = () => {
         <planeGeometry args={[2.8, 1.8]} />
         <meshBasicMaterial color="#020617" />
       </mesh>
+
+      {screenState === 'hacking' && (
+        <mesh ref={bootScanRef} position={[0, 0, 0.02]}>
+          <planeGeometry args={[2.8, 0.035]} />
+          <meshBasicMaterial color="#22d3ee" transparent opacity={0} />
+        </mesh>
+      )}
       
       <group position={[-1.3, 0.8, 0.01]}>
         {screenState === 'initial' || screenState === 'hacking' ? (
@@ -691,6 +741,21 @@ const Screen = () => {
                         <planeGeometry args={[0.08, 0.12]} />
                         <meshBasicMaterial color="#00ff00" transparent opacity={cursorVisible  ? 0.8 : 0} />
                     </mesh>
+                )}
+                {screenState === 'hacking' && (
+                    <group position={[1.3, -1.25, 0.01]}>
+                        <Text position={[0, 0.18, 0.01]} fontSize={0.05} color="#38bdf8" anchorX="center">
+                          {bootStatus || "BOOTING..."}
+                        </Text>
+                        <mesh>
+                          <planeGeometry args={[2.3, 0.1]} />
+                          <meshBasicMaterial color="#0f172a" />
+                        </mesh>
+                        <mesh position={[(-1.15 + (bootProgress / 100) * 2.3 / 2), 0, 0.01]}>
+                          <planeGeometry args={[2.3 * (bootProgress / 100), 0.1]} />
+                          <meshBasicMaterial color="#22d3ee" transparent opacity={0.75} />
+                        </mesh>
+                    </group>
                 )}
             </>
         ) : screenState === 'dashboard' ? (
@@ -919,11 +984,15 @@ STATUS: ${telemetry.lock < 100 ? 'DECRYPTING...' : 'VULNERABLE'}`}
 const Laptop = (props) => {
   const { theme } = useTheme();
   const lidGroup = useRef();
+  const laptopGroup = useRef();
+  const hoverRef = useRef(0);
+  const clickPulseRef = useRef(0);
   const bodyColor = theme === 'dark'  ? '#334155' : '#94a3b8';
   
   // Animation state
   const [isOpen, setIsOpen] = useState(false);
   const [rgbEnabled, setRgbEnabled] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     // Trigger open animation after mount
@@ -938,44 +1007,122 @@ const Laptop = (props) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  useFrame((state, delta) => {
-    if (lidGroup.current) {
-      const targetRotation = isOpen  ? -0.25 : Math.PI / 2;
-      lidGroup.current.rotation.x = THREE.MathUtils.lerp(
-        lidGroup.current.rotation.x,
-        targetRotation,
-        delta * 2
-      );
-    }
-  });
   
-  const metalMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+  
+  const aluminumMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
     color: bodyColor,
     metalness: 0.9,
-    roughness: 0.2,
+    roughness: 0.28,
+    clearcoat: 0.3,
+    clearcoatRoughness: 0.35,
   }), [bodyColor]);
 
+  const edgeHighlightMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: theme === 'dark' ? '#9ca3af' : '#e2e8f0',
+    metalness: 0.7,
+    roughness: 0.4,
+  }), [theme]);
+
+  const brushedStripMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: theme === 'dark' ? '#475569' : '#cbd5e1',
+    metalness: 0.6,
+    roughness: 0.5,
+    transparent: true,
+    opacity: 0.35,
+  }), [theme]);
+
   const keyMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#1e293b',
-    roughness: 0.7,
+    color: '#111827',
+    roughness: 0.85,
+    metalness: 0.05,
   }), []);
 
   const screenBezelMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#0f172a',
-    roughness: 0.2,
+    color: '#0b1120',
+    roughness: 0.35,
+    metalness: 0.1,
   }), []);
 
   const trackpadMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#475569',
-    roughness: 0.5,
-    metalness: 0.5,
+    color: '#374151',
+    roughness: 0.4,
+    metalness: 0.2,
   }), []);
+
+  const speakerMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#0b0f18',
+    roughness: 0.9,
+    metalness: 0.1,
+  }), []);
+
+  const portMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#0b0f18',
+    roughness: 0.8,
+    metalness: 0.2,
+  }), []);
+
+  const hingeMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#1f2937',
+    roughness: 0.45,
+    metalness: 0.6,
+  }), []);
+
+  const screenGlassMaterial = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#0b1220',
+    transparent: true,
+    opacity: 0.55,
+    metalness: 0.2,
+    roughness: 0.15,
+    emissive: '#0ea5e9',
+    emissiveIntensity: 0.22,
+  }), []);
+
+  useFrame((state, delta) => {
+    if (lidGroup.current) {
+      const clickPulse = clickPulseRef.current;
+      const targetRotation = isOpen ? -0.25 + clickPulse * 0.06 : Math.PI / 2;
+      lidGroup.current.rotation.x = THREE.MathUtils.lerp(
+        lidGroup.current.rotation.x,
+        targetRotation,
+        delta * 3
+      );
+    }
+
+    const hoverTarget = isHovered ? 1 : 0;
+    hoverRef.current += (hoverTarget - hoverRef.current) * Math.min(1, delta * 6);
+
+    if (laptopGroup.current) {
+      const hoverAmount = hoverRef.current;
+      laptopGroup.current.rotation.z = THREE.MathUtils.lerp(
+        laptopGroup.current.rotation.z,
+        -0.03 * hoverAmount,
+        delta * 4
+      );
+      laptopGroup.current.rotation.x = THREE.MathUtils.lerp(
+        laptopGroup.current.rotation.x,
+        0.02 * hoverAmount,
+        delta * 4
+      );
+      laptopGroup.current.position.y = THREE.MathUtils.lerp(
+        laptopGroup.current.position.y,
+        0.02 * hoverAmount,
+        delta * 4
+      );
+    }
+
+    if (clickPulseRef.current > 0) {
+      clickPulseRef.current = Math.max(0, clickPulseRef.current - delta * 3);
+    }
+
+    screenGlassMaterial.emissiveIntensity = 0.22 + 0.2 * hoverRef.current;
+  });
 
   // RGB Material - We'll use a dynamic color in the render loop or just a simple emissive material
   // But standard material with emissive property is better
   const rgbKeyMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#1e293b',
-    roughness: 0.7,
+    color: '#111827',
+    roughness: 0.85,
+    metalness: 0.05,
     emissive: '#ff0000',
     emissiveIntensity: 0.5
   }), []);
@@ -993,7 +1140,15 @@ const Laptop = (props) => {
   });
 
   return (
-    <group {...props}>
+    <group
+      {...props}
+      ref={laptopGroup}
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
+      onPointerDown={() => {
+        clickPulseRef.current = 1;
+      }}
+    >
       {/* RGB Hint Text */}
       <Html position={[0, 0, 0]} fullscreen style={{ pointerEvents: 'none' }}>
           <div className="absolute bottom-4 left-4 text-xs font-mono text-white/50 bg-black/50 px-2 py-1 rounded select-none pointer-events-none">
@@ -1002,34 +1157,71 @@ const Laptop = (props) => {
       </Html>
 
       {/* Base */}
-      <mesh position={[0, -0.08, 0]} material={metalMaterial}>
-        <boxGeometry args={[3.2, 0.14, 2.2]} />
-      </mesh>
-      
-      {/* Edge Highlight */}
-      <mesh position={[0, -0.02, -1.0]}>
-        <boxGeometry args={[3.0, 0.02, 0.02]} />
-        <meshStandardMaterial color="#1e293b" emissive="#38bdf8" emissiveIntensity={0.6} />
-      </mesh>
-      
-      {/* Trackpad */}
-      <mesh position={[0, 0.01, 0.6]} rotation={[-Math.PI / 2, 0, 0]} material={rgbEnabled ? rgbKeyMaterial : trackpadMaterial}>
-        <planeGeometry args={[1, 0.7]} />
+      <mesh position={[0, -0.07, 0]} material={aluminumMaterial} castShadow receiveShadow>
+        <boxGeometry args={[3.2, 0.12, 2.2]} />
       </mesh>
 
-      {/* Side Ports (USB-C) */}
-      <mesh position={[-1.61, -0.05, -0.5]} rotation={[0, 0, Math.PI / 2]}>
-          <capsuleGeometry args={[0.02, 0.1, 4, 8]} />
-          <meshBasicMaterial color="#000" />
+      {/* Brushed strip highlight */}
+      <mesh position={[0, -0.008, 0]} rotation={[-Math.PI / 2, 0, 0]} material={brushedStripMaterial} receiveShadow>
+        <planeGeometry args={[2.95, 1.95]} />
       </mesh>
-      <mesh position={[-1.61, -0.05, -0.2]} rotation={[0, 0, Math.PI / 2]}>
+
+      {/* Edge Highlights */}
+      <mesh position={[0, -0.015, 1.08]} material={edgeHighlightMaterial} castShadow>
+        <boxGeometry args={[3.0, 0.02, 0.03]} />
+      </mesh>
+      <mesh position={[0, -0.015, -1.08]} material={edgeHighlightMaterial} castShadow>
+        <boxGeometry args={[2.7, 0.02, 0.03]} />
+      </mesh>
+      <mesh position={[-1.58, -0.015, 0]} material={edgeHighlightMaterial} castShadow>
+        <boxGeometry args={[0.03, 0.02, 2.05]} />
+      </mesh>
+      <mesh position={[1.58, -0.015, 0]} material={edgeHighlightMaterial} castShadow>
+        <boxGeometry args={[0.03, 0.02, 2.05]} />
+      </mesh>
+
+      {/* Trackpad */}
+      <mesh
+        position={[0, -0.002, 0.62]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        material={rgbEnabled ? rgbKeyMaterial : trackpadMaterial}
+        castShadow
+        receiveShadow
+      >
+        <planeGeometry args={[0.95, 0.6]} />
+      </mesh>
+
+      {/* Speaker Grills */}
+      {Array.from({ length: 10 }).map((_, i) => (
+        <mesh key={`sp-l-${i}`} position={[-1.05 + i * 0.1, 0.015, 0.42]} material={speakerMaterial}>
+          <boxGeometry args={[0.05, 0.01, 0.14]} />
+        </mesh>
+      ))}
+      {Array.from({ length: 10 }).map((_, i) => (
+        <mesh key={`sp-r-${i}`} position={[0.15 + i * 0.1, 0.015, 0.42]} material={speakerMaterial}>
+          <boxGeometry args={[0.05, 0.01, 0.14]} />
+        </mesh>
+      ))}
+
+      {/* Underside Vents */}
+      <group position={[0, -0.12, -0.85]}>
+        {Array.from({ length: 7 }).map((_, i) => (
+          <mesh key={`vent-${i}`} position={[-0.6 + i * 0.2, 0, 0]} material={speakerMaterial}>
+            <boxGeometry args={[0.12, 0.01, 0.04]} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* Side Ports (USB-C) */}
+      <mesh position={[-1.61, -0.055, -0.5]} rotation={[0, 0, Math.PI / 2]} material={portMaterial} castShadow>
           <capsuleGeometry args={[0.02, 0.1, 4, 8]} />
-          <meshBasicMaterial color="#000" />
+      </mesh>
+      <mesh position={[-1.61, -0.055, -0.2]} rotation={[0, 0, Math.PI / 2]} material={portMaterial} castShadow>
+          <capsuleGeometry args={[0.02, 0.1, 4, 8]} />
       </mesh>
       {/* Headphone Jack */}
-      <mesh position={[1.61, -0.05, 0.5]} rotation={[0, 0, Math.PI / 2]}>
+      <mesh position={[1.61, -0.055, 0.5]} rotation={[0, 0, Math.PI / 2]} material={portMaterial} castShadow>
           <cylinderGeometry args={[0.025, 0.025, 0.01, 16]} />
-          <meshBasicMaterial color="#111" />
       </mesh>
 
       {/* Keyboard Area */}
@@ -1037,83 +1229,82 @@ const Laptop = (props) => {
          {/* Function Row */}
          {Array.from({ length: 14 }).map((_, i) => (
             <mesh key={`fr-${i}`} position={[-1.4 + i * 0.215, 0.02, -0.9]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-                <boxGeometry args={[0.18, 0.02, 0.12]} />
+                <boxGeometry args={[0.165, 0.015, 0.11]} />
             </mesh>
          ))}
 
          {/* Number Row */}
          {Array.from({ length: 14 }).map((_, i) => (
             <mesh key={`nr-${i}`} position={[-1.4 + i * 0.215, 0.02, -0.7]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-                <boxGeometry args={[0.18, 0.035, 0.18]} />
+                <boxGeometry args={[0.17, 0.03, 0.16]} />
             </mesh>
          ))}
 
          {/* QWERTY Row */}
          {Array.from({ length: 14 }).map((_, i) => (
             <mesh key={`qr-${i}`} position={[-1.35 + i * 0.215, 0.02, -0.48]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-                <boxGeometry args={[i === 0 ? 0.28 : 0.18, 0.035, 0.18]} />
+                <boxGeometry args={[i === 0 ? 0.26 : 0.17, 0.03, 0.16]} />
             </mesh>
          ))}
 
          {/* ASDF Row */}
          {Array.from({ length: 13 }).map((_, i) => (
             <mesh key={`ar-${i}`} position={[-1.35 + i * 0.215, 0.02, -0.26]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-                <boxGeometry args={[i === 0 ? 0.32 : (i === 12 ? 0.35 : 0.18), 0.035, 0.18]} />
+                <boxGeometry args={[i === 0 ? 0.3 : (i === 12 ? 0.32 : 0.17), 0.03, 0.16]} />
             </mesh>
          ))}
 
          {/* ZXCV Row */}
          {Array.from({ length: 12 }).map((_, i) => (
             <mesh key={`zr-${i}`} position={[-1.25 + i * 0.215, 0.02, -0.04]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-                <boxGeometry args={[i === 0 || i === 11 ? 0.42 : 0.18, 0.035, 0.18]} />
+                <boxGeometry args={[i === 0 || i === 11 ? 0.38 : 0.17, 0.03, 0.16]} />
             </mesh>
          ))}
 
          {/* Bottom Row */}
          <mesh position={[-1.35, 0.02, 0.18]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.2, 0.035, 0.18]} />
+             <boxGeometry args={[0.18, 0.03, 0.16]} />
          </mesh>
          <mesh position={[-1.1, 0.02, 0.18]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.2, 0.035, 0.18]} />
+             <boxGeometry args={[0.18, 0.03, 0.16]} />
          </mesh>
          <mesh position={[-0.85, 0.02, 0.18]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.25, 0.035, 0.18]} />
+             <boxGeometry args={[0.22, 0.03, 0.16]} />
          </mesh>
          <mesh position={[0, 0.02, 0.18]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[1.2, 0.035, 0.18]} />
+             <boxGeometry args={[1.1, 0.03, 0.16]} />
          </mesh>
          <mesh position={[0.85, 0.02, 0.18]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.25, 0.035, 0.18]} />
+             <boxGeometry args={[0.22, 0.03, 0.16]} />
          </mesh>
          
          {/* Arrow Keys */}
          <mesh position={[1.25, 0.02, 0.18]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.18, 0.035, 0.08]} />
+             <boxGeometry args={[0.16, 0.03, 0.07]} />
          </mesh>
          <mesh position={[1.25, 0.02, 0.27]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.18, 0.035, 0.08]} />
+             <boxGeometry args={[0.16, 0.03, 0.07]} />
          </mesh>
          <mesh position={[1.05, 0.02, 0.27]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.18, 0.035, 0.08]} />
+             <boxGeometry args={[0.16, 0.03, 0.07]} />
          </mesh>
          <mesh position={[1.45, 0.02, 0.27]} material={rgbEnabled ? rgbKeyMaterial : keyMaterial}>
-             <boxGeometry args={[0.18, 0.035, 0.08]} />
+             <boxGeometry args={[0.16, 0.03, 0.07]} />
          </mesh>
       </group>
 
       {/* Hinge Cylinder */}
-      <mesh position={[0, -0.05, -1.05]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.04, 0.04, 3.2, 32]} />
-          <meshStandardMaterial color="#1e293b" />
+      <mesh position={[0, -0.055, -1.08]} rotation={[0, 0, Math.PI / 2]} material={hingeMaterial} castShadow>
+          <cylinderGeometry args={[0.05, 0.05, 3.2, 32]} />
       </mesh>
 
       {/* Screen Hinge Group */}
-      <group ref={lidGroup} position={[0, -0.05, -1.05]} rotation={[Math.PI / 2, 0, 0]}>
+      <group ref={lidGroup} position={[0, -0.055, -1.08]} rotation={[Math.PI / 2, 0, 0]}>
         {/* Offset for pivot point */}
         <group position={[0, 0, 0]}> 
             {/* Lid Back */}
-            <mesh position={[0, 1.1, -0.05]} material={metalMaterial}>
-                <boxGeometry args={[3.2, 2.2, 0.055]} />
+            <mesh position={[0, 1.1, -0.055]} material={aluminumMaterial} castShadow receiveShadow>
+                <boxGeometry args={[3.2, 2.2, 0.065]} />
             </mesh>
             
             {/* Logo */}
@@ -1123,14 +1314,13 @@ const Laptop = (props) => {
             </mesh>
 
             {/* Screen Bezel */}
-            <mesh position={[0, 1.1, 0.01]} material={screenBezelMaterial}>
-                <boxGeometry args={[3.06, 2.06, 0.04]} />
+            <mesh position={[0, 1.1, 0.015]} material={screenBezelMaterial} castShadow receiveShadow>
+                <boxGeometry args={[3.04, 2.04, 0.055]} />
             </mesh>
 
             {/* Screen Glass */}
-            <mesh position={[0, 1.1, 0.045]}>
+            <mesh position={[0, 1.1, 0.05]} material={screenGlassMaterial}>
                 <planeGeometry args={[2.84, 1.86]} />
-                <meshStandardMaterial color="#0b1220" transparent opacity={0.35} metalness={0.2} roughness={0.1} />
             </mesh>
             
             {/* Camera */}
@@ -1167,9 +1357,9 @@ const Laptop3D = () => {
             <Laptop />
         </Float>
         
-        <mesh position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <mesh position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
             <planeGeometry args={[10, 10]} />
-            <meshBasicMaterial color="#000" transparent opacity={0.2} />
+            <meshStandardMaterial color="#0b0f18" transparent opacity={0.25} />
         </mesh>
     </group>
   );

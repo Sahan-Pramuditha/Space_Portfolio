@@ -152,10 +152,23 @@ const Skills = () => {
                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none" />
                
                {threeEnabled ? (
-                 <Canvas camera={{ position: [0, 2, 6], fov: 45 }} dpr={[1, 1.5]} gl={{ antialias: false, powerPreference: 'low-power' }}>
-                   <ambientLight intensity={1.5} />
-                   <pointLight position={[10, 10, 10]} intensity={2} />
-                   <pointLight position={[-10, 5, -10]} intensity={1} color="#0ea5e9" />
+                 <Canvas
+                   shadows
+                   camera={{ position: [0, 2, 6], fov: 45 }}
+                   dpr={[1, 1.5]}
+                   gl={{ antialias: false, powerPreference: 'low-power' }}
+                 >
+                   <ambientLight intensity={0.6} />
+                   <directionalLight
+                     position={[6, 8, 5]}
+                     intensity={1.4}
+                     castShadow
+                     shadow-mapSize-width={1024}
+                     shadow-mapSize-height={1024}
+                     shadow-bias={-0.0001}
+                   />
+                   <pointLight position={[-6, 2, -4]} intensity={0.6} color="#93c5fd" />
+                   <pointLight position={[6, 3, 4]} intensity={0.8} />
                    
                    <Laptop3D />
                    

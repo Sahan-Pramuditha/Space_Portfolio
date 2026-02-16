@@ -6,10 +6,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Mail, href: 'mailto:email@example.com', label: 'Email' },
+    { icon: Github, href: 'https://github.com/sahanpramuditha', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://linkedin.com/in/sahanpramuditha', label: 'LinkedIn' },
+    { icon: Twitter, href: 'https://twitter.com/sahanpramuditha', label: 'Twitter' },
+    { icon: Mail, href: 'mailto:contact@sahanpramuditha.com', label: 'Email' },
   ];
 
   return (

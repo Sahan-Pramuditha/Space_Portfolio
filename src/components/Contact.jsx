@@ -38,15 +38,46 @@ const Contact = () => {
     }());
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
     setFormState('submitting');
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const endpoint =
+        import.meta.env.VITE_CONTACT_ENDPOINT ||
+        (import.meta.env.VITE_FORMSPREE_ID
+          ? `https://formspree.io/f/${import.meta.env.VITE_FORMSPREE_ID}`
+          : null);
+      
+      if (endpoint) {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            _subject: 'New message from portfolio contact form'
+          })
+        });
+        if (!res.ok) throw new Error('Failed to submit');
+      } else {
+        const mailto = `mailto:contact@sahanpramuditha.com?subject=${encodeURIComponent(
+          'Portfolio Contact'
+        )}&body=${encodeURIComponent(
+          `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+        )}`;
+        window.location.href = mailto;
+      }
       setFormState('success');
       setFormData({ name: '', email: '', message: '' });
       triggerConfetti();
-    }, 2000);
+    } catch (err) {
+      setFormState('idle');
+    }
   };
 
   const handleChange = (e) => {

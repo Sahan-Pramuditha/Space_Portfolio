@@ -1,0 +1,17 @@
+{
+  "name": "Sahan Pramuditha",
+  "short_name": "Sahan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0ea5e9",
+  "description": "Portfolio of Sahan Pramuditha – Software Engineer & Creative Developer.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

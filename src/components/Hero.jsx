@@ -208,7 +208,9 @@ const Hero = () => {
             variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
           >
             <p className="text-text-muted text-lg max-w-xl leading-relaxed">
-              I'm a SBIC student specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
+              I am Sahan Pramuditha, a SBIC student specializing in building (and occasionally designing)
+              exceptional digital experiences. Currently, I am focused on building accessible,
+              human-centered products.
             </p>
           </motion.div>
           
@@ -262,7 +264,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Check out my work!
+              View Sahan Pramuditha Projects
             </motion.a>
             {resumeAvailable && (
               <motion.a
@@ -276,7 +278,7 @@ const Hero = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <FileText size={20} />
-                {downloading ? 'Downloading…' : (resumeUrl && resumeUrl.toLowerCase().endsWith('.docx') ? 'CV (DOCX)' : 'Resume')}
+                {downloading ? 'Downloading...' : (resumeUrl && resumeUrl.toLowerCase().endsWith('.docx') ? 'CV (DOCX)' : 'Resume')}
               </motion.a>
             )}
           </motion.div>

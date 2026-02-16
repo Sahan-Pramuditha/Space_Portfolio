@@ -1,82 +1,70 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+
+const DEFAULT_SITE_URL = 'https://sahanpramuditha.com';
+
+const normalizeSiteUrl = (rawUrl) => {
+  if (!rawUrl) return DEFAULT_SITE_URL;
+  const trimmed = String(rawUrl).trim();
+  if (!trimmed) return DEFAULT_SITE_URL;
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  return withProtocol.replace(/\/+$/, '');
+};
+
+const upsertMetaTag = (selector, attributes) => {
+  let tag = document.head.querySelector(selector);
+  if (!tag) {
+    tag = document.createElement('meta');
+    document.head.appendChild(tag);
+  }
+  Object.entries(attributes).forEach(([key, value]) => tag.setAttribute(key, value));
+};
+
+const upsertLinkTag = (selector, attributes) => {
+  let tag = document.head.querySelector(selector);
+  if (!tag) {
+    tag = document.createElement('link');
+    document.head.appendChild(tag);
+  }
+  Object.entries(attributes).forEach(([key, value]) => tag.setAttribute(key, value));
+};
 
 const SEO = () => {
   useEffect(() => {
-    const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
-    const title = 'Sahan Pramuditha | Software Engineer & Creative Developer';
-    const description = 'Sahan Pramuditha is a software engineer based in Sri Lanka, specializing in building exceptional digital experiences. Focused on accessible, human-centered products.';
+    const siteUrl = normalizeSiteUrl(import.meta.env.VITE_SITE_URL || DEFAULT_SITE_URL);
+    const canonicalUrl = `${siteUrl}/`;
+    const title = 'Sahan Pramuditha | Software Engineer and Creative Developer';
+    const description =
+      'Sahan Pramuditha is a software engineer and creative developer building accessible, high-performance digital experiences.';
     const ogImage = `${siteUrl}/favicon.svg`;
     const twitterHandle = '@sahanpramuditha';
+
     document.title = title;
-    const tags = [
-      ['meta', { name: 'description', content: description }],
-      ['meta', { name: 'title', content: title }],
-      ['meta', { name: 'application-name', content: 'Sahan Pramuditha' }],
-      ['meta', { name: 'creator', content: 'Sahan Pramuditha' }],
-      ['meta', { name: 'publisher', content: 'Sahan Pramuditha' }],
-      ['meta', { name: 'keywords', content: 'Software Engineer, Web Developer, React, Three.js, Portfolio, Sri Lanka, Frontend Developer' }],
-      ['meta', { name: 'author', content: 'Sahan Pramuditha' }],
-      ['meta', { name: 'robots', content: 'index, follow' }],
-      ['link', { rel: 'canonical', href: siteUrl }],
-      ['meta', { property: 'og:type', content: 'website' }],
-      ['meta', { property: 'og:url', content: siteUrl }],
-      ['meta', { property: 'og:title', content: title }],
-      ['meta', { property: 'og:description', content: description }],
-      ['meta', { property: 'og:image', content: ogImage }],
-      ['meta', { property: 'og:site_name', content: 'Sahan Pramuditha' }],
-      ['meta', { name: 'twitter:card', content: 'summary' }],
-      ['meta', { name: 'twitter:url', content: siteUrl }],
-      ['meta', { name: 'twitter:title', content: title }],
-      ['meta', { name: 'twitter:description', content: description }],
-      ['meta', { name: 'twitter:image', content: ogImage }],
-      ['meta', { name: 'twitter:site', content: twitterHandle }],
-      ['meta', { name: 'twitter:creator', content: twitterHandle }],
-      ['meta', { itemprop: 'name', content: title }],
-      ['meta', { itemprop: 'description', content: description }],
-      ['meta', { itemprop: 'image', content: ogImage }],
-    ];
-    const created = [];
-    for (const [tagName, attrs] of tags) {
-      const el = document.createElement(tagName);
-      Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
-      document.head.appendChild(el);
-      created.push(el);
-    }
-    const ldPerson = {
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: 'Sahan Pramuditha',
-      url: siteUrl,
-      jobTitle: 'Software Engineer',
-      sameAs: [
-        'https://github.com/SahanPramuditha-Dev',
-        'https://linkedin.com/in/sahanpramuditha',
-        'https://twitter.com/sahanpramuditha'
-      ],
-      knowsAbout: ['Frontend', 'React', 'Three.js', 'Web Performance', 'Accessibility']
-    };
-    const ldWebsite = {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      url: siteUrl,
-      name: title,
-      inLanguage: 'en'
-    };
-    const personScript = document.createElement('script');
-    personScript.type = 'application/ld+json';
-    personScript.id = 'ld-json-person';
-    personScript.text = JSON.stringify(ldPerson);
-    document.head.appendChild(personScript);
-    const websiteScript = document.createElement('script');
-    websiteScript.type = 'application/ld+json';
-    websiteScript.id = 'ld-json-website';
-    websiteScript.text = JSON.stringify(ldWebsite);
-    document.head.appendChild(websiteScript);
-    created.push(personScript, websiteScript);
-    return () => {
-      for (const el of created) document.head.removeChild(el);
-    };
+
+    upsertMetaTag('meta[name="description"]', { name: 'description', content: description });
+    upsertMetaTag('meta[name="author"]', { name: 'author', content: 'Sahan Pramuditha' });
+    upsertMetaTag('meta[name="application-name"]', { name: 'application-name', content: 'Sahan Pramuditha' });
+    upsertMetaTag('meta[name="creator"]', { name: 'creator', content: 'Sahan Pramuditha' });
+    upsertMetaTag('meta[name="publisher"]', { name: 'publisher', content: 'Sahan Pramuditha' });
+    upsertMetaTag('meta[name="robots"]', { name: 'robots', content: 'index, follow' });
+
+    upsertLinkTag('link[rel="canonical"]', { rel: 'canonical', href: canonicalUrl });
+
+    upsertMetaTag('meta[property="og:type"]', { property: 'og:type', content: 'website' });
+    upsertMetaTag('meta[property="og:url"]', { property: 'og:url', content: canonicalUrl });
+    upsertMetaTag('meta[property="og:title"]', { property: 'og:title', content: title });
+    upsertMetaTag('meta[property="og:description"]', { property: 'og:description', content: description });
+    upsertMetaTag('meta[property="og:image"]', { property: 'og:image', content: ogImage });
+    upsertMetaTag('meta[property="og:site_name"]', { property: 'og:site_name', content: 'Sahan Pramuditha' });
+
+    upsertMetaTag('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary' });
+    upsertMetaTag('meta[name="twitter:url"]', { name: 'twitter:url', content: canonicalUrl });
+    upsertMetaTag('meta[name="twitter:title"]', { name: 'twitter:title', content: title });
+    upsertMetaTag('meta[name="twitter:description"]', { name: 'twitter:description', content: description });
+    upsertMetaTag('meta[name="twitter:image"]', { name: 'twitter:image', content: ogImage });
+    upsertMetaTag('meta[name="twitter:site"]', { name: 'twitter:site', content: twitterHandle });
+    upsertMetaTag('meta[name="twitter:creator"]', { name: 'twitter:creator', content: twitterHandle });
   }, []);
+
   return null;
 };
 

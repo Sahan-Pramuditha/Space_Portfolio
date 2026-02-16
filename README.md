@@ -4,7 +4,7 @@ Interactive personal portfolio built with React, Vite, Tailwind CSS, Framer Moti
 
 ## Live
 
-- Production: https://sahanpramuditha.com
+- Production: https://sahanpramuditha.me
 
 ## Features
 

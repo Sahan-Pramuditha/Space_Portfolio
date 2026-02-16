@@ -14,7 +14,7 @@ const Footer = () => {
 
   return (
     <footer className="relative z-10 bg-primary/90 backdrop-blur-md border-t border-secondary pt-12 pb-8">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
           
           {/* Brand & Tagline */}

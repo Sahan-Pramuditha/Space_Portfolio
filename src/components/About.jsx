@@ -82,11 +82,11 @@ const About = () => {
 
   return (
     <SectionWrapper id="about">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row gap-12 items-center mb-12 md:mb-20">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative">
+        <div className="flex flex-col md:flex-row gap-10 sm:gap-12 items-center mb-12 md:mb-20">
           {/* Image/Avatar */}
-          <div className="md:w-1/3 flex justify-center">
-            <div className="relative w-64 h-64 group">
+          <div className="md:w-1/3 flex justify-center w-full">
+            <div className="relative w-56 h-56 sm:w-64 sm:h-64 group mx-auto">
               <div className="absolute inset-0 border-2 border-accent rounded-lg translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-300"></div>
               <div className="absolute inset-0 bg-accent/20 rounded-lg group-hover:bg-transparent transition-colors duration-300 z-10 pointer-events-none"></div>
               {/* Profile Photo */}
@@ -103,9 +103,10 @@ const About = () => {
 
           {/* Content */}
           <div className="md:w-2/3">
-            <h2 className="flex items-center text-2xl md:text-3xl font-bold text-text mb-8 font-display gradient-text">
-              <span className="text-accent font-mono text-xl mr-2">01.</span> About Me
-              <span className="h-px bg-secondary flex-grow ml-4 opacity-50"></span>
+            <h2 className="flex flex-wrap items-center gap-2 text-xl sm:text-2xl md:text-3xl font-bold text-text mb-6 sm:mb-8 font-display gradient-text">
+              <span className="text-accent font-mono text-lg sm:text-xl mr-0 sm:mr-2">01.</span>
+              <span className="flex-grow min-w-0">About Me</span>
+              <span className="h-px bg-secondary flex-grow min-w-[60px] ml-0 sm:ml-4 opacity-50 w-full sm:w-auto order-3 sm:order-none"></span>
             </h2>
             
             <div className="text-text-muted space-y-4 text-lg">

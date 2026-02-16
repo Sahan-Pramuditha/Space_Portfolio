@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import profilePhoto from '../assets/profilephoto.jpeg';
 
 const DEFAULT_SITE_URL = 'https://sahanpramuditha.com';
 
@@ -65,15 +64,9 @@ const SEO = () => {
     upsertMetaTag('meta[name="twitter:site"]', { name: 'twitter:site', content: twitterHandle });
     upsertMetaTag('meta[name="twitter:creator"]', { name: 'twitter:creator', content: twitterHandle });
 
-    // Preload profile photo so About image appears as quickly as possible
-    upsertLinkTag('link[data-preload="profile-photo"]', {
-      rel: 'preload',
-      as: 'image',
-      href: profilePhoto,
-      // mark so we can find/update this tag safely
-      'data-preload': 'profile-photo',
-      fetchpriority: 'high',
-    });
+    // Note: Profile photo preload removed - the image is already set to loading="eager" 
+    // in About.jsx, which is sufficient for fast loading. Vite-processed image imports
+    // don't work well with preload links, so we rely on eager loading instead.
   }, []);
 
   return null;

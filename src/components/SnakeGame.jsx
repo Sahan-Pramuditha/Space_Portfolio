@@ -202,6 +202,7 @@ const SnakeGame = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       <motion.div
+        key="snake-game-modal"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}

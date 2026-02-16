@@ -111,7 +111,7 @@ const Contact = () => {
 
   return (
     <SectionWrapper id="contact" className="min-h-[80vh] flex items-center">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-accent font-mono text-lg mb-4">05. What's Next?</h2>
           <h2 className="text-4xl md:text-5xl font-bold text-text mb-6 gradient-text">Get In Touch</h2>

@@ -71,7 +71,7 @@ const Testimonials = () => {
       <div className="absolute top-1/4 left-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10"></div>
       <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10"></div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="flex items-center justify-center text-2xl md:text-3xl font-bold text-text mb-4 font-display gradient-text">
             <span className="text-accent font-mono text-xl mr-2">04.</span> Client Stories

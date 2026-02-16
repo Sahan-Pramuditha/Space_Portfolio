@@ -133,18 +133,19 @@ const Skills = () => {
 
   return (
     <SectionWrapper id="skills" className="bg-secondary/30 transition-colors duration-300">
-      <div className="container mx-auto px-6" ref={sectionRef}>
-        <h2 className="flex items-center text-2xl md:text-3xl font-bold text-text mb-12 md:mb-16 gradient-text">
-          <span className="text-accent font-mono text-xl mr-2">02.</span> Skills & Technologies
-          <span className="h-px bg-secondary flex-grow ml-4 opacity-50"></span>
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl" ref={sectionRef}>
+        <h2 className="flex flex-wrap items-center gap-2 text-xl sm:text-2xl md:text-3xl font-bold text-text mb-8 sm:mb-12 md:mb-16 gradient-text">
+          <span className="text-accent font-mono text-lg sm:text-xl mr-0 sm:mr-2">02.</span>
+          <span className="flex-grow min-w-0">Skills & Technologies</span>
+          <span className="h-px bg-secondary flex-grow min-w-[60px] ml-0 sm:ml-4 opacity-50 w-full sm:w-auto order-3 sm:order-none"></span>
         </h2>
-        <p className="text-text-muted text-sm md:text-base mb-10 max-w-2xl">
+        <p className="text-text-muted text-sm md:text-base mb-8 sm:mb-10 max-w-2xl">
           This section maps my core skills onto a mission-style visualization. Each module in the interface
           represents a capability — from frontend systems to backend services — all working together like an
           orbiting station.
         </p>
 
-        <div className="flex flex-col lg:flex-row gap-16 items-start skills-wrapper">
+        <div className="flex flex-col lg:flex-row gap-10 sm:gap-16 items-start skills-wrapper">
           {/* Left Column: Categorized Skills */}
           <div className="w-full lg:w-3/5 space-y-12">
             {skillCategories.map((category, idx) => (
@@ -184,7 +185,7 @@ const Skills = () => {
           </div>
 
           {/* Right Column: ISS (Local GLB) */}
-          <div className="w-full lg:w-2/5 h-[300px] lg:h-[600px] sticky top-24">
+          <div className="w-full lg:w-2/5 h-[260px] sm:h-[300px] lg:h-[600px] sticky top-20 lg:top-24 min-h-0">
              <div 
                 ref={containerRef}
                 className="relative w-full h-full cursor-move bg-secondary/20 rounded-2xl border border-secondary/50 backdrop-blur-sm overflow-hidden"
@@ -192,86 +193,96 @@ const Skills = () => {
                 onMouseLeave={() => setZoomEnabled(false)}
              >
                {/* Decorative background gradient */}
-               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none" />
+               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent pointer-events-none z-0" />
 
-               {/* Live ISS telemetry HUD */}
-               {issInfo && (
-                 <div className="absolute top-4 left-4 bg-slate-950/80 border border-accent/30 rounded-lg px-3 py-2 text-[0.65rem] md:text-xs text-slate-200/90 font-mono backdrop-blur-md shadow-lg">
-                   <div className="flex items-center justify-between gap-4 mb-1">
-                     <span className="tracking-[0.18em] uppercase text-slate-400 text-[0.55rem] md:text-[0.6rem]">
-                       Live ISS Telemetry
-                     </span>
-                     {issError && (
-                       <span className="text-red-400 text-[0.55rem] uppercase">
-                         Offline
-                       </span>
-                     )}
-                   </div>
-                   <div className="flex flex-col gap-0.5 text-[0.7rem] md:text-[0.75rem]">
-                     <span>
-                       Lat {issInfo.latitude.toFixed(1)}° · Lon {issInfo.longitude.toFixed(1)}°
-                     </span>
-                     <span>
-                       Alt {issInfo.altitude.toFixed(0)} km · Vel {Math.round(issInfo.velocity)} km/h
-                     </span>
-                   </div>
-                 </div>
-               )}
-
+               {/* Canvas layer - behind overlays */}
                {threeEnabled ? (
-                 <Canvas
-                   shadows
-                   camera={{ position: [0, 0, 8], fov: 45 }}
-                   dpr={[1, 1.5]}
-                   gl={{ antialias: false, powerPreference: 'low-power' }}
-                 >
-                   <ambientLight intensity={0.8} />
-                   <directionalLight
-                     position={[6, 8, 5]}
-                     intensity={1.8}
-                     castShadow
-                     shadow-mapSize-width={1024}
-                     shadow-mapSize-height={1024}
-                     shadow-bias={-0.0001}
-                   />
-                   <pointLight position={[-6, 2, -4]} intensity={0.6} color="#93c5fd" />
-                   <pointLight position={[6, 3, 4]} intensity={0.8} />
+                 <div className="absolute inset-0 z-0">
+                   <Canvas
+                     shadows
+                     camera={{ position: [0, 0, 8], fov: 45 }}
+                     dpr={[1, 1.5]}
+                     gl={{ antialias: false, powerPreference: 'low-power' }}
+                   >
+                     <ambientLight intensity={0.8} />
+                     <directionalLight
+                       position={[6, 8, 5]}
+                       intensity={1.8}
+                       castShadow
+                       shadow-mapSize-width={1024}
+                       shadow-mapSize-height={1024}
+                       shadow-bias={-0.0001}
+                     />
+                     <pointLight position={[-6, 2, -4]} intensity={0.6} color="#93c5fd" />
+                     <pointLight position={[6, 3, 4]} intensity={0.8} />
 
-                  <ISS3D highlightCategory={highlightCategory} />
-                  <Sparkles
-                    count={50}
-                    scale={10}
-                    size={2}
-                    speed={0.3}
-                    opacity={0.4}
-                    color="#60a5fa"
-                  />
+                    <ISS3D highlightCategory={highlightCategory} />
+                    <Sparkles
+                      count={50}
+                      scale={10}
+                      size={2}
+                      speed={0.3}
+                      opacity={0.4}
+                      color="#60a5fa"
+                    />
 
-                   <OrbitControls
-                     ref={controlsRef}
-                     enableZoom={zoomEnabled}
-                     autoRotate={!zoomEnabled}
-                     autoRotateSpeed={0.5}
-                     minPolarAngle={Math.PI / 6}
-                     maxPolarAngle={Math.PI - Math.PI / 6}
-                     minDistance={3}
-                     maxDistance={15}
-                   />
-                 </Canvas>
+                     <OrbitControls
+                       ref={controlsRef}
+                       enableZoom={zoomEnabled}
+                       autoRotate={!zoomEnabled}
+                       autoRotateSpeed={0.5}
+                       minPolarAngle={Math.PI / 6}
+                       maxPolarAngle={Math.PI - Math.PI / 6}
+                       minDistance={1.5}
+                       maxDistance={30}
+                       zoomSpeed={1.8}
+                     />
+                   </Canvas>
+                 </div>
                ) : (
-                 <div className="absolute inset-0 flex flex-col items-center justify-center text-text-muted text-sm font-mono gap-3 px-6 text-center">
+                 <div className="absolute inset-0 flex flex-col items-center justify-center text-text-muted text-sm font-mono gap-3 px-6 text-center z-0">
                    <div>Interactive preview disabled for performance</div>
                  </div>
                )}
-               
-               <div className="absolute bottom-4 right-4 text-xs text-text-muted font-mono pointer-events-none bg-secondary/80 px-2 py-1 rounded backdrop-blur-sm border border-white/5">
-                 International Space Station (Local)
-               </div>
-               {threeEnabled && (
-                 <div className="absolute bottom-4 left-4 text-[0.65rem] md:text-xs text-text-muted/80 font-mono bg-secondary/80 px-2 py-1 rounded backdrop-blur-sm border border-white/10">
-                   Rotate: drag · Zoom: scroll
+
+               {/* Overlay layer - above Canvas */}
+               <div className="absolute inset-0 z-10 pointer-events-none">
+                 {/* Live ISS telemetry HUD */}
+                 {issInfo && (
+                   <div className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-slate-950/90 border border-accent/30 rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 text-slate-200/90 font-mono backdrop-blur-md shadow-lg max-w-[calc(100%-1rem)] sm:max-w-none">
+                     <div className="flex items-center justify-between gap-2 sm:gap-4 mb-0.5 sm:mb-1">
+                       <span className="tracking-[0.15em] sm:tracking-[0.18em] uppercase text-slate-400 text-[0.5rem] sm:text-[0.55rem] md:text-[0.6rem] leading-tight">
+                         Live ISS Telemetry
+                       </span>
+                       {issError && (
+                         <span className="text-red-400 text-[0.5rem] sm:text-[0.55rem] uppercase whitespace-nowrap">
+                           Offline
+                         </span>
+                       )}
+                     </div>
+                     <div className="flex flex-col gap-0.5 text-[0.6rem] sm:text-[0.65rem] md:text-[0.75rem] leading-tight">
+                       <span className="whitespace-nowrap">
+                         Lat {issInfo.latitude.toFixed(1)}° · Lon {issInfo.longitude.toFixed(1)}°
+                       </span>
+                       <span className="whitespace-nowrap">
+                         Alt {issInfo.altitude.toFixed(0)} km · Vel {Math.round(issInfo.velocity)} km/h
+                       </span>
+                     </div>
+                   </div>
+                 )}
+
+                 {/* Bottom labels - stacked on mobile, side-by-side on larger screens */}
+                 <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 sm:gap-0">
+                   {threeEnabled && (
+                     <div className="text-[0.55rem] sm:text-[0.65rem] md:text-xs text-text-muted/80 font-mono bg-secondary/90 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded backdrop-blur-sm border border-white/10 whitespace-nowrap self-start sm:self-auto">
+                       Rotate: drag · Zoom: scroll
+                     </div>
+                   )}
+                   <div className="text-[0.55rem] sm:text-xs text-text-muted font-mono bg-secondary/90 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded backdrop-blur-sm border border-white/5 whitespace-nowrap self-end sm:self-auto">
+                     ISS (Local)
+                   </div>
                  </div>
-               )}
+               </div>
              </div>
           </div>
         </div>

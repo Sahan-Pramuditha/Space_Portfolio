@@ -60,38 +60,17 @@ const Hero = () => {
   useEffect(() => {
     if (prefersReducedMotion) return undefined;
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-
-      tl.from(".hero-text-reveal", {
-        y: 100,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.1,
-        ease: "power4.out",
-        delay: 0.2
-      })
-      .from(".hero-social-btn", {
-        y: 20,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: "back.out(1.7)"
-      }, "-=0.5")
-      .from(".hero-cta", {
-        scale: 0.9,
-        opacity: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)"
-      }, "-=0.3");
-
-      gsap.to(".scroll-indicator", {
-        y: 10,
-        repeat: -1,
-        yoyo: true,
-        duration: 1.5,
-        ease: "power1.inOut"
-      });
-
+      // Only animate scroll indicator - text animations are handled by Framer Motion
+      const scrollIndicator = compRef.current?.querySelector('.scroll-indicator');
+      if (scrollIndicator) {
+        gsap.to(scrollIndicator, {
+          y: 10,
+          repeat: -1,
+          yoyo: true,
+          duration: 1.5,
+          ease: "power1.inOut"
+        });
+      }
     }, compRef);
 
     return () => ctx.revert();
@@ -158,8 +137,8 @@ const Hero = () => {
   };
 
   return (
-    <section ref={compRef} id="home" className="min-h-screen flex items-center justify-center relative z-10 overflow-hidden pt-24 md:pt-0">
-      <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center h-full">
+    <section ref={compRef} id="home" className="min-h-[100dvh] min-h-screen flex items-center justify-center relative z-10 overflow-hidden pt-20 sm:pt-24 md:pt-0 px-4 sm:px-0" style={{ position: 'relative' }}>
+      <div className="container mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 sm:gap-12 items-center h-full max-w-7xl">
         
         {/* Text Content */}
         <motion.div 
@@ -188,7 +167,7 @@ const Hero = () => {
             className="mb-4"
             variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
           >
-            <h1 className="text-5xl lg:text-7xl font-bold text-text mb-2 font-display tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-text mb-2 font-display tracking-tight leading-tight">
               Sahan <span className="text-accent inline-block hover:scale-105 transition-transform duration-300 cursor-default text-shadow-glow">Pramuditha</span>
             </h1>
           </motion.div>
@@ -196,7 +175,7 @@ const Hero = () => {
             className="overflow-hidden mb-6 h-20 md:h-auto"
             variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
           >
-            <h2 className="text-4xl md:text-6xl font-bold text-text-muted font-display flex flex-col md:block">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-text-muted font-display flex flex-col md:block">
               <span>I build </span>
               <span className="text-text">
                 <TypewriterText words={["Web Applications.", "Digital Experiences.", "Accessible Products.", "User Interfaces."]} />
@@ -213,7 +192,7 @@ const Hero = () => {
           </motion.div>
           
           <motion.div 
-            className="flex gap-4 mb-10"
+            className="flex gap-4 mb-10 justify-center md:justify-start"
             variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
           >
             <motion.a
@@ -253,7 +232,7 @@ const Hero = () => {
           </motion.div>
 
           <motion.div 
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap gap-4 justify-center md:justify-start"
             variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
           >
             <motion.a
@@ -284,7 +263,7 @@ const Hero = () => {
 
         {/* 3D Element */}
         <motion.div 
-          className="hero-3d-container h-[400px] md:h-[500px] w-full relative flex items-center justify-center order-first md:order-last mb-8 md:mb-0"
+          className="hero-3d-container h-[280px] sm:h-[360px] md:h-[500px] w-full relative flex items-center justify-center order-first md:order-last mb-6 md:mb-0 min-h-0"
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}

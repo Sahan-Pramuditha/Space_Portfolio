@@ -112,7 +112,7 @@ const Navbar = () => {
           scrolled ? 'bg-primary/80 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'
         }`}
       >
-        <div className="container mx-auto px-6 flex justify-between items-center">
+        <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center max-w-7xl">
           <a href="#home" onClick={(e) => handleClick(e, '#home')} className="text-2xl font-bold text-accent">
             S<span className="text-text">ahan.</span>
           </a>

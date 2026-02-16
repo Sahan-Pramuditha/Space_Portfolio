@@ -61,6 +61,7 @@ const TerminatorShaderMaterial = {
   `,
   transparent: true,
   blending: THREE.MultiplyBlending,
+  premultipliedAlpha: true,
   depthWrite: false,
 };
 
@@ -534,6 +535,7 @@ const EarthSystem = ({ explode, onExplosionComplete, focused, cinematic, destruc
                     opacity={config.cloudShadows.opacity}
                     color={config.cloudShadows.color}
                     blending={THREE[config.cloudShadows.blending] || THREE.MultiplyBlending}
+                    premultipliedAlpha={true}
                     side={THREE.DoubleSide}
                     depthWrite={false}
                 />

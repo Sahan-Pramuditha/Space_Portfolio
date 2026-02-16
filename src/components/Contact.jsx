@@ -149,10 +149,10 @@ const Contact = () => {
                       autoComplete="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full bg-primary/50 border border-secondary rounded-lg px-4 py-3 text-text outline-none focus:border-accent transition-colors peer"
+                      className="w-full bg-primary/50 border border-secondary rounded-lg px-4 py-3 text-text outline-none focus:border-accent transition-colors peer placeholder:text-white"
                       placeholder=" "
                     />
-                    <label className="absolute left-4 top-3 text-text-muted transition-all duration-300 pointer-events-none peer-focus:-top-6 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-xs">
+                    <label className="absolute left-4 top-3 text-white transition-all duration-300 pointer-events-none peer-focus:-top-6 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-xs">
                       Your Name
                     </label>
                   </div>
@@ -167,10 +167,10 @@ const Contact = () => {
                       autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full bg-primary/50 border border-secondary rounded-lg px-4 py-3 text-text outline-none focus:border-accent transition-colors peer"
+                      className="w-full bg-primary/50 border border-secondary rounded-lg px-4 py-3 text-text outline-none focus:border-accent transition-colors peer placeholder:text-white"
                       placeholder=" "
                     />
-                    <label className="absolute left-4 top-3 text-text-muted transition-all duration-300 pointer-events-none peer-focus:-top-6 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-xs">
+                    <label className="absolute left-4 top-3 text-white transition-all duration-300 pointer-events-none peer-focus:-top-6 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-xs">
                       Your Email
                     </label>
                   </div>
@@ -186,10 +186,10 @@ const Contact = () => {
                       autoComplete="off"
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full bg-primary/50 border border-secondary rounded-lg px-4 py-3 text-text outline-none focus:border-accent transition-colors peer resize-none"
+                      className="w-full bg-primary/50 border border-secondary rounded-lg px-4 py-3 text-text outline-none focus:border-accent transition-colors peer resize-none placeholder:text-white"
                       placeholder=" "
                     ></motion.textarea>
-                    <label className="absolute left-4 top-3 text-text-muted transition-all duration-300 pointer-events-none peer-focus:-top-6 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-xs">
+                    <label className="absolute left-4 top-3 text-white transition-all duration-300 pointer-events-none peer-focus:-top-6 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-6 peer-[:not(:placeholder-shown)]:text-xs">
                       Message
                     </label>
                   </div>

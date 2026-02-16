@@ -22,11 +22,7 @@ const hexToRgb = (hex) => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) return savedTheme;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
+  const theme = 'dark';
 
   const [accentColor, setAccentColor] = useState(() => {
     return localStorage.getItem('accentColor') || 'sky';
@@ -35,9 +31,9 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    root.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  }, []);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -63,11 +59,9 @@ export const ThemeProvider = ({ children }) => {
     }
     
     localStorage.setItem('accentColor', accentColor);
-  }, [accentColor, theme]);
+  }, [accentColor]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
+  const toggleTheme = () => {};
 
   const changeAccentColor = (color) => {
     setAccentColor(color);

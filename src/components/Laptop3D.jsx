@@ -19,8 +19,8 @@ const SatelliteGlobe = () => {
   return (
     <group>
         <mesh ref={meshRef}>
-            <sphereGeometry args={[0.5, 16, 16]} />
-            <meshBasicMaterial color="#ef4444" wireframe transparent opacity={0.8} />
+            <sphereGeometry args={[0.5, 64, 64]} />
+            <meshStandardMaterial color="#ef4444" roughness={0.6} metalness={0.2} />
         </mesh>
         {/* Scanning ring */}
         <mesh rotation={[Math.PI / 2, 0, 0]}>

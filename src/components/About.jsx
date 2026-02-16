@@ -3,6 +3,7 @@ import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { Code2, Server, Users } from 'lucide-react';
 import SectionWrapper from './SectionWrapper';
 const About3D = React.lazy(() => import('./About3D'));
+import GithubStats from './GithubStats';
 
 const stats = [
   { label: 'Years Experience', value: 3, suffix: '+' },
@@ -50,7 +51,33 @@ const Counter = ({ value, suffix }) => {
 };
 
 const About = () => {
-  const GITHUB_USERNAME = "sahanpramuditha"; 
+  const GITHUB_USERNAME = "SahanPramuditha-Dev"; 
+  const StatsImage = ({ src, alt, href }) => {
+    const [failed, setFailed] = useState(false);
+    if (failed) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          className="px-4 py-2 border border-accent text-accent rounded font-mono hover:bg-accent/10 transition-colors"
+        >
+          View on GitHub
+        </a>
+      );
+    }
+    return (
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+        className="w-full max-w-md opacity-90 hover:opacity-100 transition-opacity"
+        onError={() => setFailed(true)}
+      />
+    );
+  };
 
   return (
     <SectionWrapper id="about">
@@ -147,28 +174,7 @@ const About = () => {
           <h3 className="text-2xl font-bold text-text mb-8 flex items-center gap-2">
             <span className="text-accent font-mono text-xl">01.2.</span> Open Source Presence
           </h3>
-          <div className="grid md:grid-cols-2 gap-8">
-             <div className="bg-secondary/20 p-4 rounded-xl border border-secondary/50 flex items-center justify-center hover:border-accent/50 transition-colors">
-                <img 
-                  src={`https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&theme=transparent&hide_border=true&title_color=38bdf8&text_color=94a3b8&icon_color=38bdf8`} 
-                  alt="GitHub Stats for Sahan Pramuditha"
-                  loading="lazy"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  className="w-full max-w-md opacity-90 hover:opacity-100 transition-opacity"
-                />
-             </div>
-             <div className="bg-secondary/20 p-4 rounded-xl border border-secondary/50 flex items-center justify-center hover:border-accent/50 transition-colors">
-                <img 
-                  src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${GITHUB_USERNAME}&layout=compact&theme=transparent&hide_border=true&title_color=38bdf8&text_color=94a3b8`} 
-                  alt="Top Languages for Sahan Pramuditha"
-                  loading="lazy"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  className="w-full max-w-md opacity-90 hover:opacity-100 transition-opacity"
-                />
-             </div>
-          </div>
+          <GithubStats username={GITHUB_USERNAME} />
           <p className="text-center text-text-muted mt-4 text-xs font-mono opacity-50">
             * Data fetched dynamically from GitHub
           </p>

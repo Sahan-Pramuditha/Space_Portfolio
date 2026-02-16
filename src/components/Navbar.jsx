@@ -123,7 +123,7 @@ const Navbar = () => {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleClick(e, link.href)}
-                className={`transition-colors duration-300 relative group font-medium nav-link ${
+                className={`inline-flex items-center transition-colors duration-300 relative group font-medium nav-link ${
                   activeSection === link.id ? 'text-accent' : 'text-text-muted hover:text-accent'
                 }`}
                 whileHover={{ scale: 1.05 }}

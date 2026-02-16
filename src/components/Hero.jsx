@@ -153,7 +153,7 @@ const Hero = () => {
             variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
           >
             <motion.a
-              href="https://github.com/sahanpramuditha"
+              href="https://github.com/SahanPramuditha-Dev"
               target="_blank"
               rel="noreferrer"
               className="p-3 bg-secondary rounded-full text-text-muted hover:text-primary hover:bg-accent transition-all duration-300 transform shadow-md hover:shadow-lg"

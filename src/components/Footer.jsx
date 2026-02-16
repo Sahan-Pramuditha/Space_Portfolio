@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/sahanpramuditha', label: 'GitHub' },
+    { icon: Github, href: 'https://github.com/SahanPramuditha-Dev', label: 'GitHub' },
     { icon: Linkedin, href: 'https://linkedin.com/in/sahanpramuditha', label: 'LinkedIn' },
     { icon: Twitter, href: 'https://twitter.com/sahanpramuditha', label: 'Twitter' },
     { icon: Mail, href: 'mailto:contact@sahanpramuditha.com', label: 'Email' },

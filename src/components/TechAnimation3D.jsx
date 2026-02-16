@@ -470,7 +470,7 @@ const EarthSystem = ({ explode, onExplosionComplete, focused, cinematic, destruc
       <Float speed={1} rotationIntensity={0.1} floatIntensity={0.2}>
         <group>
             {/* Base Earth Sphere */}
-            <Sphere ref={earthRef} args={[1.5, 64, 64]} position={[0, 0, 0]}>
+            <Sphere ref={earthRef} args={[1.65, 64, 64]} position={[0, 0, 0]}>
                 <meshPhongMaterial 
                     map={colorMap}
                     normalMap={normalMap}
@@ -485,7 +485,7 @@ const EarthSystem = ({ explode, onExplosionComplete, focused, cinematic, destruc
             </Sphere>
             
             {/* Clouds / Atmosphere Layer */}
-            <Sphere ref={earthWireframeRef} args={[1.52, 64, 64]} position={[0, 0, 0]}>
+            <Sphere ref={earthWireframeRef} args={[1.67, 64, 64]} position={[0, 0, 0]}>
                 <meshPhongMaterial 
                     map={cloudsMap}
                     transparent={true}
@@ -497,7 +497,7 @@ const EarthSystem = ({ explode, onExplosionComplete, focused, cinematic, destruc
             </Sphere>
 
             {/* Cloud Shadowing Layer */}
-            <Sphere ref={earthShadowRef} args={[1.515, 64, 64]} position={[0, 0, 0]}>
+            <Sphere ref={earthShadowRef} args={[1.675, 64, 64]} position={[0, 0, 0]}>
                 <meshPhongMaterial 
                     map={cloudsMap}
                     transparent={true}
@@ -510,14 +510,14 @@ const EarthSystem = ({ explode, onExplosionComplete, focused, cinematic, destruc
             </Sphere>
 
             {/* Atmosphere Glow (Custom Shader) */}
-            <mesh scale={[1.65, 1.65, 1.65]}> 
+            <mesh scale={[1.8, 1.8, 1.8]}> 
                  <sphereGeometry args={[1, 64, 64]} />
                  <shaderMaterial args={[AtmosphereShaderMaterial]} side={THREE.BackSide} transparent depthWrite={false} />
             </mesh>
 
             {/* Subtle particle glow shell */}
             <points ref={particleRef}>
-              <sphereGeometry args={[1.72, 32, 32]} />
+              <sphereGeometry args={[1.92, 32, 32]} />
               <pointsMaterial
                 size={0.012}
                 color="#7dd3fc"
@@ -529,7 +529,7 @@ const EarthSystem = ({ explode, onExplosionComplete, focused, cinematic, destruc
             </points>
 
             {/* Terminator shading (day/night transition) */}
-            <mesh ref={terminatorRef} scale={[1.505, 1.505, 1.505]}>
+            <mesh ref={terminatorRef} scale={[1.705, 1.705, 1.705]}>
               <sphereGeometry args={[1, 64, 64]} />
               <shaderMaterial args={[TerminatorShaderMaterial]} />
             </mesh>
@@ -539,11 +539,11 @@ const EarthSystem = ({ explode, onExplosionComplete, focused, cinematic, destruc
 
             {/* Aurora Bands */}
             <mesh ref={auroraRef} rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[1.62, 0.03, 8, 128]} />
+              <torusGeometry args={[1.78, 0.03, 8, 128]} />
               <meshBasicMaterial color="#22d3ee" transparent opacity={0.12} blending={THREE.AdditiveBlending} />
             </mesh>
             <mesh ref={auroraRef2} rotation={[Math.PI / 2.2, 0, 0]}>
-              <torusGeometry args={[1.58, 0.02, 8, 128]} />
+              <torusGeometry args={[1.74, 0.02, 8, 128]} />
               <meshBasicMaterial color="#a855f7" transparent opacity={0.08} blending={THREE.AdditiveBlending} />
             </mesh>
         </group>
@@ -979,7 +979,7 @@ const TechAnimation3D = () => {
             <CameraRig controlsRef={controlsRef} focused={focused} cinematic={cinematic} destructing={destructing} trackLat={trackLat} trackLon={trackLon} />
             <OrbitControls 
                 ref={controlsRef}
-                enableZoom={zoomEnabled && !cinematic && !destructing} 
+                enableZoom={false} 
                 enableRotate={!cinematic && !destructing}
                 minDistance={0.8}
                 maxDistance={20}

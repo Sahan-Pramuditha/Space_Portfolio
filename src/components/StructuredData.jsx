@@ -6,10 +6,10 @@ const StructuredData = () => {
     "@type": "Person",
     "name": "Sahan Pramuditha",
     "jobTitle": "Software Engineer & Creative Developer",
-    "url": "https://sahanpramuditha.com",
+    "url": "https://sahanpramuditha.me",
     "sameAs": [
       "https://github.com/SahanPramuditha-Dev",
-      "https://linkedin.com/in/sahanpramuditha",
+      "https://www.linkedin.com/in/sahan-pramuditha-754761356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "https://twitter.com/sahanpramuditha"
     ],
     "address": {
@@ -19,7 +19,7 @@ const StructuredData = () => {
     },
     "alumniOf": {
       "@type": "EducationalOrganization",
-      "name": "SBIC"
+      "name": "University of Colombo - Faculty of Technology"
     },
     "knowsAbout": [
       "Software Engineering",
@@ -34,7 +34,7 @@ const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Sahan Pramuditha Portfolio",
-    "url": "https://sahanpramuditha.com",
+    "url": "https://sahanpramuditha.me",
     "author": {
       "@type": "Person",
       "name": "Sahan Pramuditha"

@@ -6,12 +6,12 @@ import SectionWrapper from './SectionWrapper';
 const experienceData = [
   {
     type: 'education',
-    title: 'BSc (Hons) in Software Engineering',
-    organization: 'SBIC',
+    title: 'Bachelor of Information and Communication Technology (BICT)',
+    organization: 'University of Colombo - Faculty of Technology',
     location: 'Sri Lanka',
-    period: '2023 - Present',
-    description: 'Specializing in Enterprise Application Development. Leading the university coding club and organizing hackathons. Key coursework: Data Structures, Algorithms, Distributed Systems.',
-    skills: ['System Design', 'Algorithms', 'Distributed Systems']
+    period: 'Sep 2024 - Expected Sep 2028',
+    description: 'Currently pursuing a multidisciplinary ICT degree focused on System Administration, Network Administration, Database Management, and DevOps. Coursework includes Operating Systems, Programming, Computer Networks, and Databases, with practical milestones including a mini project, internship, and final-year research project.',
+    skills: ['System Administration', 'Network Administration', 'Database Management', 'DevOps']
   },
   {
     type: 'work',
@@ -23,13 +23,40 @@ const experienceData = [
     skills: ['React', 'Node.js', 'Client Management', 'AWS']
   },
   {
+    type: 'work',
+    title: 'E‑commerce Operations & Platform Manager',
+    organization: 'Wybe Fashion (wybe.lk)',
+    location: 'Sri Lanka',
+    period: 'See resume',
+    description: 'Managed wybe.lk end‑to‑end — product & catalog management, pricing strategies, inventory synchronization, payment and fulfillment integrations, and platform reliability at scale. Led operational workflows across online and in‑store channels, improving order-processing efficiency and supporting peak traffic (see resume for metrics).',
+    skills: ['E‑commerce Operations', 'Platform Scaling', 'Inventory Management', 'Payments & Fulfillment']
+  },
+  {
     type: 'education',
-    title: 'Foundation in Computer Science',
-    organization: 'Online Resources & Certifications',
-    location: 'Global',
-    period: '2020 - 2022',
-    description: 'Completed intensive coursework in Full Stack Development (Meta Coursera), Algorithms (Princeton), and UI/UX Design (Google). Built 5 production-ready capstone projects.',
-    skills: ['Self-Learning', 'Project Management', 'CI/CD']
+    title: 'G.C.E. Advanced Level (A/L) - Engineering Technology Stream',
+    organization: 'Christ King College, Thudella',
+    location: 'Sri Lanka',
+    period: '2022 - 2023',
+    description: 'A grades in ICT, Science for Technology, and General English, with a B grade in Engineering Technology. Achieved Z-Score 2.0519 (District Rank: 41, Island Rank: 343) and participated as a basketball team member.',
+    skills: ['ICT', 'Engineering Technology', 'Science for Technology', 'General English']
+  },
+  {
+    type: 'education',
+    title: 'CAIT Course',
+    organization: 'SLT-MOBITEL Nebula Institute of Technology',
+    location: 'Welisara / Moratuwa / Kandy, Sri Lanka',
+    period: '2020 (2.5 months)',
+    description: 'Completed CAIT short course focused on ICT essentials and hands-on technical foundations including Office 365 applications, web and graphic design exposure, networking and OS security basics, and practical programming.',
+    skills: ['Microsoft Office 365', 'Python', 'SQL', 'Power BI', 'Cyber Security']
+  },
+  {
+    type: 'education',
+    title: 'G.C.E. Ordinary Level (O/L)',
+    organization: 'Christ King College, Thudella',
+    location: 'Sri Lanka',
+    period: '2019',
+    description: 'Completed Ordinary Level studies in English medium.',
+    skills: ['English Medium', 'Academic Foundation']
   }
 ];
 

@@ -6,10 +6,10 @@ import SectionWrapper from './SectionWrapper';
 const testimonials = [
   {
     id: 1,
-    name: 'Sarah Johnson',
-    role: 'Product Manager at TechFlow',
-    content: 'Sahan is a rare breed of developer who understands both the code and the user. He delivered our MVP two weeks early and the attention to detail was impeccable.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    name: 'Wybe Fashion',
+    role: 'E-Commerce & Retail Operations Team',
+    content: 'Managed wybe.lk operations and platform reliability.',
+    image: 'https://greencoding.b-cdn.net/wybe.lk/front-end-assets/og.jpg',
     rating: 5
   },
   {

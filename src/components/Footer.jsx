@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, Mail, Twitter, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail, Facebook, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Footer = () => {
@@ -7,8 +7,8 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/SahanPramuditha-Dev', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/sahanpramuditha', label: 'LinkedIn' },
-    { icon: Twitter, href: 'https://twitter.com/sahanpramuditha', label: 'Twitter' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/sahan-pramuditha-754761356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', label: 'LinkedIn' },
+    { icon: Facebook, href: 'https://www.facebook.com/share/1MdpoJ9nBa/', label: 'Facebook' },
     { icon: Mail, href: 'mailto:contact@sahanpramuditha.com', label: 'Email' },
   ];
 

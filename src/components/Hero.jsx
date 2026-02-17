@@ -187,7 +187,7 @@ const Hero = () => {
             variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1 } }}
           >
             <p className="text-text-muted text-lg max-w-xl leading-relaxed">
-              I'm a SBIC student specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
+              I'm a BICT student specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
             </p>
           </motion.div>
           
@@ -208,7 +208,7 @@ const Hero = () => {
               <Github size={24} />
             </motion.a>
             <motion.a
-              href="https://linkedin.com/in/sahanpramuditha"
+              href="https://www.linkedin.com/in/sahan-pramuditha-754761356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
               target="_blank"
               rel="noreferrer"
               onClick={() => trackSocialClick('linkedin')}

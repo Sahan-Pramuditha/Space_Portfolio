@@ -6,11 +6,13 @@ const About3D = React.lazy(() => import('./About3D'));
 import GithubStats from './GithubStats';
 import profilePhoto from '../assets/profilephoto.jpeg';
 
+
+// Stats data for the counters
 const stats = [
-  { label: 'Years Experience', value: 3, suffix: '+' },
-  { label: 'Projects Completed', value: 15, suffix: '+' },
-  { label: 'Lines of Code', value: 50, suffix: 'k+' },
-  { label: 'Happy Clients', value: 10, suffix: '+' },
+  { label: 'Years Experience', value: 2, suffix: '+' },
+  { label: 'Projects Completed', value: 5, suffix: '+' },
+  { label: 'Lines of Code', value: 25, suffix: 'k+' },
+  { label: 'Happy Clients', value: 5, suffix: '+' },
 ];
 
 const Counter = ({ value, suffix }) => {
@@ -111,13 +113,16 @@ const About = () => {
             
             <div className="text-text-muted space-y-4 text-lg">
               <p>
-                Hello! My name is Sahan and I enjoy creating things that live on the internet. My interest in web development started back in 2020 when I decided to try editing custom Tumblr themes — turns out hacking together HTML & CSS was pretty fun!
+                Hello! My name is Sahan and I enjoy creating things that live on the internet. My interest in web development started back in 2023 when I decided to try editing custom Tumblr themes — turns out hacking together HTML & CSS was pretty fun!
               </p>
               <p>
                 Fast-forward to today, and I've had the privilege of building software for a variety of clients. My main focus these days is building accessible, inclusive products and digital experiences.
               </p>
               <p>
-                I am currently a student at SBIC, constantly learning and evolving my skills to stay up-to-date with the latest technologies.
+                I also manage Wybe.lk — overseeing end-to-end e‑commerce operations (catalog & pricing, inventory sync, payments and fulfillment integrations) and platform reliability for high-traffic events. See my resume for detailed metrics and outcomes.
+              </p>
+              <p>
+                I am currently a student at <b>University Of Colombo</b> who is constantly learning and evolving my skills to stay up-to-date with the latest technologies.
               </p>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const DEFAULT_SITE_URL = 'https://sahanpramuditha.com';
+const DEFAULT_SITE_URL = 'https://sahanpramuditha.me';
 
 const normalizeSiteUrl = (rawUrl) => {
   if (!rawUrl) return DEFAULT_SITE_URL;

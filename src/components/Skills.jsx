@@ -36,6 +36,15 @@ const skillCategories = [
       { name: "MongoDB", level: 80, proficiency: "Proficient", rationale: "NoSQL Database" },
       { name: "Figma", level: 75, proficiency: "Intermediate", rationale: "Design to Code" }
     ]
+  },
+  {
+    title: "E-commerce & Ops",
+    skills: [
+      { name: "E-commerce Operations", level: 90, proficiency: "Advanced", rationale: "Catalog, inventory & fulfillment" },
+      { name: "Platform Scaling", level: 85, proficiency: "Proficient", rationale: "Performance & reliability for peak traffic" },
+      { name: "Inventory Management", level: 80, proficiency: "Proficient", rationale: "Sync & omnichannel workflows" },
+      { name: "Payments & Integrations", level: 80, proficiency: "Proficient", rationale: "Gateways, webhooks & partner integrations" }
+    ]
   }
 ];
 

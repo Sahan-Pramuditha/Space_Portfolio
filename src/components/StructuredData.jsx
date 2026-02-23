@@ -6,10 +6,10 @@ const StructuredData = () => {
     "@type": "Person",
     "name": "Sahan Pramuditha",
     "jobTitle": "Software Engineer & Creative Developer",
-    "url": "https://sahanpramuditha.me",
+    "url": "https://www.sahanpramuditha.me",
     "sameAs": [
       "https://github.com/SahanPramuditha-Dev",
-      "https://www.linkedin.com/in/sahan-pramuditha-754761356?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+      "https://www.linkedin.com/in/sahan-pramuditha-754761356/",
       "https://twitter.com/sahanpramuditha"
     ],
     "address": {
@@ -34,7 +34,7 @@ const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Sahan Pramuditha Portfolio",
-    "url": "https://sahanpramuditha.me",
+    "url": "https://www.sahanpramuditha.me",
     "author": {
       "@type": "Person",
       "name": "Sahan Pramuditha"

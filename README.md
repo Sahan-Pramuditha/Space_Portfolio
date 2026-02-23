@@ -4,7 +4,7 @@ Interactive personal portfolio built with React, Vite, Tailwind CSS, Framer Moti
 
 ## Live
 
-- Production: https://sahanpramuditha.me
+- Production: https://www.sahanpramuditha.me
 
 ## Features
 
@@ -64,7 +64,7 @@ Create a `.env` file from `.env.example`.
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `VITE_RESUME_URL` | No | External resume URL. If empty, app tries `/resume.pdf`. |
+| `VITE_RESUME_URL` | No | External resume URL. If empty, app uses `/resume.pdf`. |
 | `VITE_CONTACT_ENDPOINT` | No | Full POST endpoint for contact form submissions. |
 | `VITE_FORMSPREE_ID` | No | Formspree form ID (used if `VITE_CONTACT_ENDPOINT` is not set). |
 | `VITE_GITHUB_TOKEN` | No | GitHub token to reduce API rate-limit issues for GitHub stats. |

@@ -5,6 +5,8 @@ import gsap from 'gsap';
 import { trackSocialClick, trackDownload } from '../utils/analytics';
 import TechAnimation3D from './TechAnimation3D';
 
+const DEFAULT_RESUME_URL = '/resume.pdf';
+
 const TypewriterText = ({ words }) => {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
@@ -53,8 +55,8 @@ const TypewriterText = ({ words }) => {
 const Hero = () => {
   const compRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
-  const [resumeAvailable, setResumeAvailable] = useState(false);
-  const [resumeUrl, setResumeUrl] = useState(null);
+  const resumeUrl = (import.meta.env.VITE_RESUME_URL || '').trim() || DEFAULT_RESUME_URL;
+  const resumeAvailable = Boolean(resumeUrl);
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
@@ -75,41 +77,6 @@ const Hero = () => {
 
     return () => ctx.revert();
   }, [prefersReducedMotion]);
-
-  useEffect(() => {
-    const envUrl = import.meta.env.VITE_RESUME_URL;
-    if (envUrl) {
-      setResumeUrl(envUrl);
-      setResumeAvailable(true);
-      return;
-    }
-    let cancelled = false;
-    const candidates = [
-      '/Sahan%20Pramuditha%20Resume.pdf',
-      '/resume.pdf',
-      '/Sahan_Pramuditha_CV.docx',
-      '/Sahan_Pramuditha_CV.pdf',
-      '/cv.pdf',
-      '/CV.pdf'
-    ];
-    (async () => {
-      for (const path of candidates) {
-        try {
-          const res = await fetch(path, { method: 'HEAD' });
-          if (!cancelled && res.ok) {
-            setResumeUrl(path);
-            setResumeAvailable(true);
-            break;
-          }
-        } catch {
-          /* ignore */
-        }
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const handleResumeDownload = async (e) => {
     e.preventDefault();
@@ -255,7 +222,7 @@ const Hero = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <FileText size={20} />
-                {downloading ? 'Downloading…' : (resumeUrl && resumeUrl.toLowerCase().endsWith('.docx') ? 'CV (DOCX)' : 'Resume')}
+                {downloading ? 'Downloading...' : (resumeUrl && resumeUrl.toLowerCase().endsWith('.docx') ? 'CV (DOCX)' : 'Resume')}
               </motion.a>
             )}
           </motion.div>

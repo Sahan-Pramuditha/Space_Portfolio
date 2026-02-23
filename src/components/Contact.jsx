@@ -120,7 +120,7 @@ const Contact = () => {
           </p>
           {/* Resume Download Link */}
           <motion.a
-            href="/Sahan%20Pramuditha%20Resume.pdf"
+            href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             download

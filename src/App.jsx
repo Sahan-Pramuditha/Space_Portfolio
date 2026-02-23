@@ -22,9 +22,17 @@ import ScrollProgress from './components/ScrollProgress';
 import ScrollToTop from './components/ScrollToTop';
 import SmoothScroll from './components/SmoothScroll';
 
+const BOT_USER_AGENT_PATTERN =
+  /bot|crawler|spider|googlebot|bingbot|duckduckbot|baiduspider|yandex/i;
+
+const shouldSkipPreloader = () => {
+  if (typeof navigator === 'undefined') return false;
+  return BOT_USER_AGENT_PATTERN.test(navigator.userAgent || '');
+};
+
 // Ensure React is not duplicated and hooks are used correctly
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !shouldSkipPreloader());
 
   useEffect(() => {
     let animationFrameId;

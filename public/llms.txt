@@ -1,0 +1,24 @@
+# Sahan Pramuditha
+
+Personal portfolio website for Sahan Pramuditha, a software engineer and creative web developer.
+
+Primary URL: https://www.sahanpramuditha.me/
+Sitemap: https://www.sahanpramuditha.me/sitemap.xml
+Robots: https://www.sahanpramuditha.me/robots.txt
+Resume: https://www.sahanpramuditha.me/resume.pdf
+
+Key sections:
+- Home: https://www.sahanpramuditha.me/#home
+- About: https://www.sahanpramuditha.me/#about
+- Experience: https://www.sahanpramuditha.me/#experience
+- Skills: https://www.sahanpramuditha.me/#skills
+- Projects: https://www.sahanpramuditha.me/#projects
+- Certifications: https://www.sahanpramuditha.me/#certifications
+- Testimonials: https://www.sahanpramuditha.me/#testimonials
+- Blog: https://www.sahanpramuditha.me/#blog
+- Contact: https://www.sahanpramuditha.me/#contact
+
+Contact:
+- Email: contact@sahanpramuditha.com
+- GitHub: https://github.com/SahanPramuditha-Dev
+- LinkedIn: https://www.linkedin.com/in/sahan-pramuditha-754761356/

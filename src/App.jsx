@@ -21,6 +21,7 @@ import KeyboardShortcuts from './components/KeyboardShortcuts';
 import ScrollProgress from './components/ScrollProgress';
 import ScrollToTop from './components/ScrollToTop';
 import SmoothScroll from './components/SmoothScroll';
+import { Analytics } from '@vercel/analytics/react';
 
 const BOT_USER_AGENT_PATTERN =
   /bot|crawler|spider|googlebot|bingbot|duckduckbot|baiduspider|yandex/i;
@@ -95,6 +96,7 @@ function App() {
             </main>
             <Footer />
           </div>
+          <Analytics />
         </div>
       )}
     </>

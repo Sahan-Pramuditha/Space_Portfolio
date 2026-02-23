@@ -54,7 +54,7 @@ const Skills = () => {
   const containerRef = useRef(null);
   const controlsRef = useRef(null);
   const [zoomEnabled, setZoomEnabled] = useState(false);
-  const [threeEnabled, setThreeEnabled] = useState(true);
+  const [threeEnabled, setThreeEnabled] = useState(() => !shouldDisableHeavyVisuals());
   const [highlightCategory, setHighlightCategory] = useState(null);
   const [issInfo, setIssInfo] = useState(null);
   const [issError, setIssError] = useState(false);

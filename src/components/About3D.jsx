@@ -67,7 +67,7 @@ const About3DScene = () => {
 };
 
 const About3D = () => {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(() => !shouldDisableHeavyVisuals());
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

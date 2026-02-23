@@ -98,7 +98,7 @@ const Stars = (props) => {
 };
 
 const ThreeBackground = () => {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(() => !shouldDisableHeavyVisuals());
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

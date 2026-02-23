@@ -1,12 +1,24 @@
 import React from 'react';
 
+const DEFAULT_SITE_URL = 'https://www.sahanpramuditha.me';
+
+const normalizeSiteUrl = (rawUrl) => {
+  if (!rawUrl) return DEFAULT_SITE_URL;
+  const trimmed = String(rawUrl).trim();
+  if (!trimmed) return DEFAULT_SITE_URL;
+  const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+  return withProtocol.replace(/\/+$/, '');
+};
+
 const StructuredData = () => {
+  const siteUrl = normalizeSiteUrl(import.meta.env.VITE_SITE_URL || DEFAULT_SITE_URL);
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Sahan Pramuditha",
     "jobTitle": "Software Engineer & Creative Developer",
-    "url": "https://www.sahanpramuditha.me",
+    "url": siteUrl,
     "sameAs": [
       "https://github.com/SahanPramuditha-Dev",
       "https://www.linkedin.com/in/sahan-pramuditha-754761356/",
@@ -34,7 +46,7 @@ const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Sahan Pramuditha Portfolio",
-    "url": "https://www.sahanpramuditha.me",
+    "url": siteUrl,
     "author": {
       "@type": "Person",
       "name": "Sahan Pramuditha"
